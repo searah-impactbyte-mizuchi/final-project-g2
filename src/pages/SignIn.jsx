@@ -12,6 +12,7 @@ import { email, required } from '../modules/form/validation';
 import RFTextField from '../modules/form/RFTextField';
 import FormButton from '../modules/form/FormButton';
 import FormFeedback from '../modules/form/FormFeedback';
+import { Formik } from "formik";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -29,22 +30,63 @@ const useStyles = makeStyles((theme) => ({
 function SignIn() {
   const classes = useStyles();
   const [sent, setSent] = React.useState(false);
-
-  const validate = (values) => {
-    const errors = required(['email', 'password'], values);
-
-    if (!errors.email) {
-      const emailError = email(values.email, values);
-      if (emailError) {
-        errors.email = email(values.email, values);
+  <Formik
+    initialValues={{
+      email: "",
+      password: "",
+    }}
+    validate={(values) => {
+      const errors = {};
+      if (!values.email) {
+        errors.email = "Required";
+      } else if (
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+          values.email
+        )
+      ) {
+        errors.email = "Invalid email address";
       }
-    }
 
-    return errors;
-  };
+      if (!values.password) {
+        errors.password = "Required";
+      }
 
-  const handleSubmit = () => {
-    setSent(true);
+      return errors;
+    }}
+
+    onSubmit={ (values) => {
+      // dispatch(loginUser(values));
+  //   handleSubmit = (values) => {
+      alert(JSON.stringify(values))
+  // };
+    }}
+    >
+
+    
+  </Formik>
+
+
+  // const validate = (values) => {
+  //   const errors = {};
+  //   if (!values.email) {
+  //     errors.email = "Required";
+  //   } else if (
+  //     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+  //       values.email
+  //     )
+  //   ) {
+  //     errors.email = "Invalid email address";
+  //   }
+
+  //   if (!values.password) {
+  //     errors.password = "Required";
+  //   }
+
+  //   return errors;
+  // }
+
+  const handleSubmit = (values) => {
+    alert(JSON.stringify(values));
   };
 
   return (
@@ -62,7 +104,7 @@ function SignIn() {
             </Link>
           </Typography>
         </React.Fragment>
-        <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
+        <Form onSubmit={handleSubmit} subscription={{ submitting: true }}>
           {({ handleSubmit2, submitting }) => (
             <form onSubmit={handleSubmit2} className={classes.form} noValidate>
               <Field
