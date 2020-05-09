@@ -13,6 +13,10 @@ import RFTextField from '../modules/form/RFTextField';
 import FormButton from '../modules/form/FormButton';
 import FormFeedback from '../modules/form/FormFeedback';
 import { Formik } from "formik";
+import { useSelector, useDispatch } from "react-redux"
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -27,67 +31,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignIn() {
+// function SignIn() {
+//   const classes = useStyles();
+//   const [sent, setSent] = React.useState(false);
+
+//   const validate = (values) => {
+//     const errors = required(['email', 'password'], values);
+//     console.log(values);
+
+
+//     if (!errors.email) {
+//       const emailError = email(values.email, values);
+//       if (emailError) {
+//         errors.email = email(values.email, values);
+//       }
+//     }
+//     return errors;
+//   };
+
+//   const handleSubmit = (values) => {
+//     setSent(true);
+//     alert(JSON.stringify(values))
+//     console.log()
+//   };
+export default function SignIn() {
   const classes = useStyles();
-  const [sent, setSent] = React.useState(false);
-  <Formik
-    initialValues={{
-      email: "",
-      password: "",
-    }}
-    validate={(values) => {
-      const errors = {};
-      if (!values.email) {
-        errors.email = "Required";
-      } else if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-          values.email
-        )
-      ) {
-        errors.email = "Invalid email address";
-      }
-
-      if (!values.password) {
-        errors.password = "Required";
-      }
-
-      return errors;
-    }}
-
-    onSubmit={ (values) => {
-      // dispatch(loginUser(values));
-  //   handleSubmit = (values) => {
-      alert(JSON.stringify(values))
-  // };
-    }}
-    >
-
-    
-  </Formik>
-
-
-  // const validate = (values) => {
-  //   const errors = {};
-  //   if (!values.email) {
-  //     errors.email = "Required";
-  //   } else if (
-  //     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-  //       values.email
-  //     )
-  //   ) {
-  //     errors.email = "Invalid email address";
-  //   }
-
-  //   if (!values.password) {
-  //     errors.password = "Required";
-  //   }
-
-  //   return errors;
-  // }
-
-  const handleSubmit = (values) => {
-    alert(JSON.stringify(values));
-  };
+  const userList = useSelector(state => state.userList)
+  const dispatch = useDispatch();
 
   return (
     <React.Fragment>
@@ -104,7 +74,120 @@ function SignIn() {
             </Link>
           </Typography>
         </React.Fragment>
-        <Form onSubmit={handleSubmit} subscription={{ submitting: true }}>
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+          }}
+          validate={(values) => {
+            const errors = {};
+            if (!values.email) {
+              errors.email = "Required";
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                values.email
+              )
+            ) {
+              errors.email = "Invalid email address";
+            }
+
+            if (!values.password) {
+              errors.password = "Required";
+            }
+
+            return errors;
+          }}
+          onSubmit={(values) => {
+            // dispatch(loginUser(values));
+            alert(JSON.stringify(values))
+          }}
+        >
+          {({
+            handleChange,
+            handleSubmit,
+            values,
+            isSubmitting,
+            errors,
+            touched,
+          }) => {
+            return (
+              <form
+                className={classes.form}
+                noValidate
+                onSubmit={handleSubmit}
+              >
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  onChange={handleChange}
+                  value={values.email}
+                />
+                <p
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {errors.email &&
+                    touched.email &&
+                    errors.email}
+                </p>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={handleChange}
+                  value={values.password}
+                />
+                <p
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {errors.password &&
+                    touched.password &&
+                    errors.password}
+                </p>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  disabled={isSubmitting}
+                >
+                  Sign In
+                                </Button>
+                <Grid container justify="flex-end">
+                  <Grid item>
+                    <Link
+                      to="/sign-up"
+                      style={{ textDecoration: "none" }}
+                    >
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
+              </form>
+            );
+          }}
+
+        </Formik>
+        {/* <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
           {({ handleSubmit2, submitting }) => (
             <form onSubmit={handleSubmit2} className={classes.form} noValidate>
               <Field
@@ -151,7 +234,7 @@ function SignIn() {
               </FormButton>
             </form>
           )}
-        </Form>
+        </Form> */}
         <Typography align="center">
           <Link underline="always" href="/premium-themes/onepirate/forgot-password/">
             Forgot password?
@@ -162,5 +245,3 @@ function SignIn() {
     </React.Fragment>
   );
 }
-
-export default withRoot(SignIn);
