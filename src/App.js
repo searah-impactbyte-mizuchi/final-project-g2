@@ -5,6 +5,7 @@ import Profile from "./pages/Profile"
 
 
 
+
 function App() {
   return (
     <div>
@@ -12,6 +13,7 @@ function App() {
       {/* <Header/> */}
       <Profile/>
       {/* <Footer/> */}
+     
 
     </div>
   );

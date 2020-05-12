@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
@@ -31,9 +31,6 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        '& > *': {
-            margin: theme.spacing(1),
-          },
     },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
@@ -115,37 +112,13 @@ const useStyles = makeStyles((theme) => ({
     font: {
         fontFamily: 'Comfortaa, cursive',
     },
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
-      },
-      content: {
-        flex: '1 0 auto',
-      },
-      cover: {
-        width: 151,
-        background: "lightblue"
-      },
-      controls: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-      },
-      playIcon: {
-        height: 38,
-        width: 38,
-      },
-      test: {
-          maxWidth: 400
-      }
 }));
 
 export default function Dashboard() {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const fixedHeightPaper1 = clsx(classes.paper, classes.table);
-    const theme = useTheme();
+    
 
     return (
         <div className={classes.root}>
