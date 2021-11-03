@@ -27,7 +27,7 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "validator": "^13.0.0",
+    "validator": "^13.7.0",
     "validator.js-validate": "^1.1.0"
   },
   "scripts": {
